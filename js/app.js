@@ -1,4 +1,4 @@
-const SUB={id:{name:"Bahasa Indonesia",char:"cat",...ID},en:{name:"Bahasa Inggris",char:"bear",...EN,note:"Kunci Bahasa Inggris disusun berdasarkan isi teks karena PDF-nya tidak memuat kunci."}};
+const SUB={id:{name:"Bahasa Indonesia",char:"cat",...ID},en:{name:"Bahasa Inggris",char:"bear",...EN,note:"Kunci Bahasa Inggris disusun berdasarkan isi teks karena PDF-nya tidak memuat kunci."},mtk:{name:"Matematika",char:"bunny",...MTK}};
 ID.Q.forEach((q,i)=>{q.c=CID[i]});
 EN.Q.forEach((q,i)=>{q.c=CEN[i];q.x=XEN[i]});
 const KEY="dedee-tercintaa-tka-v1",L="ABCDE",ROM=["I","II","III","IV"];
@@ -8,8 +8,8 @@ const heart=c=>`<svg class="${c||"hi"}" viewBox="0 0 24 24" aria-hidden="true"><
 const ico=d=>`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${d}"/></svg>`;
 const IC={back:ico("M19 12H5m6-6-6 6 6 6"),next:ico("M5 12h14m-6-6 6 6-6 6"),bulb:ico("M9 18h6m-5 3h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"),x:ico("M6 6l12 12M18 6 6 18")};
 const mk=()=>({ans:{},idx:0,done:false,res:null,best:null,clue:{}});
-let S={id:mk(),en:mk()},sid="id",view="home";
-try{let r=localStorage.getItem(KEY),o=null;if(r)o=JSON.parse(r);else{r=localStorage.getItem("dede-keysha-tka-v2");if(r)o=JSON.parse(r);else{r=localStorage.getItem("dede-tka-bahasa-indonesia-v1");if(r)o={id:JSON.parse(r)}}}if(o){S.id=Object.assign(mk(),o.id);S.en=Object.assign(mk(),o.en)}}catch(e){}
+let S={id:mk(),en:mk(),mtk:mk()},sid="id",view="home";
+try{let r=localStorage.getItem(KEY),o=null;if(r)o=JSON.parse(r);else{r=localStorage.getItem("dede-keysha-tka-v2");if(r)o=JSON.parse(r);else{r=localStorage.getItem("dede-tka-bahasa-indonesia-v1");if(r)o={id:JSON.parse(r)}}}if(o){S.id=Object.assign(mk(),o.id);S.en=Object.assign(mk(),o.en);S.mtk=Object.assign(mk(),o.mtk)}}catch(e){}
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
@@ -44,19 +44,21 @@ return h+`</div>`}
 function home(){
 const fh=[[8,70,0,""],[30,12,1.4,"b"],[52,86,2.6,""],[72,30,.8,"b"],[90,64,3.4,""]].map(x=>`<svg class="fh ${x[3]}" style="left:${x[0]}%;top:${x[1]}%;animation-delay:${x[2]}s" viewBox="0 0 24 24" aria-hidden="true"><path d="${P}"/></svg>`).join("");
 const tile=id=>{const s=S[id],d=SUB[id],n=nDone(id),p=n/d.Q.length;
-return `<article class="tile glass t-${id} rv" style="--i:${id=="id"?3:4}"><div class="peek">${ch(d.char)}</div><p class="tk">${d.Q.length} soal · ada tombol clue</p><h2>${d.name}</h2>
+return `<article class="tile glass t-${id} rv" style="--i:${{id:3,en:4,mtk:5}[id]}"><div class="peek">${ch(d.char)}</div><p class="tk">${d.Q.length} soal · ada tombol clue</p><h2>${d.name}</h2>
 <div class="stats"><div><b>${s.res?s.res.nilai:"–"}</b><span>Nilai terakhir</span></div><div><b>${s.best!==null?s.best:"–"}</b><span>Nilai terbaik</span></div><div><b>${n}/${d.Q.length}</b><span>Terjawab</span></div></div>
 <div class="pb" role="progressbar" aria-valuenow="${Math.round(p*100)}" aria-valuemin="0" aria-valuemax="100"><i style="width:100%;transform:scaleX(${p});transform-origin:left"></i></div>
 <div class="row"><button class="btn pri" data-a="start" data-s="${id}">${s.done?"Kerjakan lagi dari awal":n?"Lanjutkan (soal "+(s.idx+1)+")":"Mulai belajar"}</button>${s.done?`<button class="btn" data-a="res" data-s="${id}">Lihat nilai dan pembahasan</button>`:""}${!s.done&&n?`<button class="btn" data-a="reset" data-s="${id}">Hapus jawaban</button>`:""}</div>${d.note?`<p class="mini">${d.note}</p>`:""}</article>`};
 return `<main><section class="hero"><div class="hl"><p class="kick rv" style="--i:0">${heart()}buat dedee tercintaa</p><h1 class="msg rv" style="--i:1">semangat yaa dede sayang belajarnya abang tau dede pasti bisa dapat nilai yang terbaikkkk. semangat sayangg<span class="hrt">🤍</span></h1><p class="lead rv" style="--i:2">abang siapin soal-soal ini khusus buat dedee tercintaa, dikerjain pelan-pelan aja yaa sayang. kalau bingung, pencet tombol clue, nanti abang kasih petunjuk.</p><a class="btn pri cta rv" style="--i:2" href="#mapel">Pilih pelajaran</a></div>
 <div class="stage rv" style="--i:2">${ch("cloud","c-cloud")}${ch("star","c-star")}${ch("bear","c-bear")}${ch("bunny","c-main")}${fh}</div></section>
-<section class="mapel" id="mapel">${tile("id")}${tile("en")}</section><p class="foot">dari abang, buat dedee tercintaa ${heart()}</p></main>`}
+<section class="mapel" id="mapel">${tile("id")}${tile("en")}${tile("mtk")}</section><p class="foot">dari abang, buat dedee tercintaa ${heart()}</p></main>`}
+const pbox=(id,q)=>{const h=pass(id,q);return h?`<div class="pass">${h}</div>`:""};
+const topic=q=>q.topic?`<span class="tag s">${esc(q.topic)}</span>`:"";
 const MASC=["bunny","bear","cat","cloud","star"];
 const mapHtml=()=>{const s=S[sid];return SUB[sid].Q.map((_,k)=>`<button class="mb ${k==s.idx?"cur":isDone(sid,k)?"dn":""}" data-a="jump" data-i="${k}" aria-label="Soal ${k+1}${isDone(sid,k)?", sudah dijawab":""}">${k+1}</button>`).join("")};
 const pbarHtml=()=>{const n=nDone(sid),t=SUB[sid].Q.length;return `<div class="pb"><i style="width:100%;transform:scaleX(${n/t});transform-origin:left"></i></div><p class="mini">Terjawab ${n} dari ${t}. Jawabanmu tersimpan otomatis.</p>`};
 const bubText=()=>{const s=S[sid];return isDone(sid,s.idx)?CH[s.idx%CH.length]:"ayo dedee tercintaa, pelan-pelan aja yaa"};
 function qMain(){const s=S[sid],i=s.idx,q=SUB[sid].Q[i],op=s.clue[i]===1;
-return `<div class="tags"><span class="tag">${jn(q)}</span><span class="tag s">${SUB[sid].name}</span>${s.clue[i]?`<span class="tag c">clue dipakai</span>`:""}</div><div class="pass">${pass(sid,q)}</div>${qBody(sid,i,false)}<div class="clue"><button class="btn gold" data-a="clue" aria-expanded="${op}">${IC.bulb}${op?"Tutup clue":"Butuh clue?"}</button>${op?`<div class="cbox">${ch("bulb","cb")}<p><b>Clue dari abang</b>${esc(q.c)}</p></div>`:""}</div>`}
+return `<div class="tags"><span class="tag">${jn(q)}</span><span class="tag s">${SUB[sid].name}</span>${topic(q)}${s.clue[i]?`<span class="tag c">clue dipakai</span>`:""}</div>${pbox(sid,q)}${qBody(sid,i,false)}<div class="clue"><button class="btn gold" data-a="clue" aria-expanded="${op}">${IC.bulb}${op?"Tutup clue":"Butuh clue?"}</button>${op?`<div class="cbox">${ch("bulb","cb")}<p><b>Clue dari abang</b>${esc(q.c)}</p></div>`:""}</div>`}
 function quiz(){const s=S[sid],Q=SUB[sid].Q,i=s.idx,d=SUB[sid];
 return `<main class="t-${sid}"><header class="qtop"><button class="btn ghost" data-a="home">${IC.back}Beranda</button><div class="qt"><b>${d.name}</b><span>Soal ${i+1} dari ${Q.length}</span></div></header>
 <div class="qgrid"><section class="qmain glass"><div id="qmain">${qMain()}</div><div class="qnav"><button class="btn" data-a="prev" ${i?"":"disabled"}>${IC.back}Sebelumnya</button>${i<Q.length-1?`<button class="btn pri" data-a="next">Berikutnya${IC.next}</button>`:`<button class="btn pri" data-a="fin">Selesai dan lihat nilai</button>`}</div></section>
@@ -68,7 +70,7 @@ if(!s.res)return `<main class="t-${sid}">${top}<section class="glass empty">${ch
 const r=s.res,mc=r.nilai>=80?"bunny":r.nilai>=60?"bear":"cloud";
 const sts=[[4,8,0],[70,4,1.3],[82,52,2.4]].map(x=>`<span class="st" style="left:${x[0]}%;top:${x[1]}%;animation-delay:${x[2]}s">${ch("star")}</span>`).join("");
 return `<main class="t-${sid}">${top}<section class="glass score"><div><p class="mini" style="margin:0">Nilai dedee tercintaa</p><div class="n">${r.nilai}</div><p style="margin:6px 0 12px">Benar ${r.benar} dari ${Q.length} soal · Salah ${Q.length-r.benar} · Clue dipakai ${nClue(sid)}x</p><p class="m">${msg(r.nilai)}</p><p class="mini">Soal pilih-semua dan tabel dinilai benar jika semua pilihannya tepat.${en?" "+d.note:""}</p><div class="row"><button class="btn pri" data-a="start" data-s="${sid}">Kerjakan lagi</button></div></div><div class="cel">${sts}${ch(mc)}</div></section>
-<div class="rv2">${Q.map((q,i)=>{const ok=isRight(sid,i);return `<article class="glass rcard"><div class="tags"><span class="tag">${jn(q)}</span><span class="tag s">${d.name}</span></div><h2>Nomor ${i+1}. ${isDone(sid,i)?(ok?"Benar":"Salah"):"Belum dijawab"}</h2><details><summary>Lihat teks soal</summary><div class="pass">${pass(sid,q)}</div></details>${qBody(sid,i,true)}<div class="pem ${ok?"":"x"}"><p><b>Jawaban: ${key(sid,i)}</b></p><p><b>${en?"Alasan singkat:":"Pembahasan:"}</b></p>${paras(q.x)}</div></article>`}).join("")}</div></main>`}
+<div class="rv2">${Q.map((q,i)=>{const ok=isRight(sid,i);return `<article class="glass rcard"><div class="tags"><span class="tag">${jn(q)}</span><span class="tag s">${d.name}</span>${topic(q)}</div><h2>Nomor ${i+1}. ${isDone(sid,i)?(ok?"Benar":"Salah"):"Belum dijawab"}</h2>${pass(sid,q)?`<details><summary>Lihat teks soal</summary>${pbox(sid,q)}</details>`:""}${qBody(sid,i,true)}<div class="pem ${ok?"":"x"}"><p><b>Jawaban: ${key(sid,i)}</b></p><p><b>${en?"Alasan singkat:":"Pembahasan:"}</b></p>${paras(q.x)}</div></article>`}).join("")}</div></main>`}
 function render(anim){const a=$("#app");a.className=anim?"enter":"";a.innerHTML=view=="home"?home():view=="quiz"?quiz():result()}
 function go(v){view=v;render(true);window.scrollTo(0,0)}
 function refresh(){$("#qmain").innerHTML=qMain();$("#map").innerHTML=mapHtml();$("#pbar").innerHTML=pbarHtml();$("#bub").textContent=bubText()}

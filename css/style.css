@@ -12,7 +12,7 @@ body::before{content:"";position:fixed;inset:0;z-index:-2;background:radial-grad
 @keyframes drift{to{transform:translate3d(40px,-50px,0) scale(1.12)}}
 h1,h2,h3{font-family:"Outfit",sans-serif;letter-spacing:-.02em;margin:0}
 .t-id{--ac:var(--rose);--ac2:var(--rose2);--soft:#ffe6f0}
-.t-en{--ac:var(--sky);--ac2:var(--sky2);--soft:#e1f0ff}
+.t-en,.t-mtk{--ac:var(--sky);--ac2:var(--sky2);--soft:#e1f0ff}
 button{font:inherit;cursor:pointer}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:999px;padding:12px 20px;font-weight:600;font-size:15px;background:#fff;color:var(--ink);box-shadow:inset 0 0 0 1.5px #dfe4f7;transition:transform .2s var(--spring),box-shadow .2s,filter .2s}
 .btn:hover{box-shadow:inset 0 0 0 1.5px var(--ac)}
@@ -54,6 +54,9 @@ main{max-width:1160px;margin:0 auto;padding:18px 18px 56px}
 .tile{position:relative;padding:28px;overflow:hidden}
 .tile.t-id{grid-column:span 7}
 .tile.t-en{grid-column:span 5;margin-top:34px}
+.tile.t-mtk{grid-column:span 12}
+.tile.t-mtk h2{max-width:none}
+.tile.t-mtk .stats{max-width:560px}
 .tile .peek{position:absolute;right:14px;top:-4px;width:118px;pointer-events:none}
 .tile .peek svg{width:100%;height:auto}
 .tk{margin:0 0 4px;color:var(--ac2);font-weight:600;font-size:14px}
@@ -160,7 +163,7 @@ table.bs,table.tb{width:100%;border-collapse:collapse}
 .hero{grid-template-columns:1fr;min-height:0}
 .stage{max-width:340px;order:-1}
 .mapel{grid-template-columns:1fr}
-.tile.t-id,.tile.t-en{grid-column:auto;margin-top:0}
+.tile.t-id,.tile.t-en,.tile.t-mtk{grid-column:auto;margin-top:0}
 .qgrid{grid-template-columns:1fr}
 .qside{position:static}
 .score{grid-template-columns:1fr;padding:26px}
